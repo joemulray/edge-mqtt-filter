@@ -23,9 +23,18 @@ def on_message(client, userdata, message):
 		dev_payload_decoded_base64 = base64.b64decode(payload).encode('hex')
 		dev_payload_decoded_lpp = python_cayennelpp.decoder.decode(dev_payload_decoded_base64)
 		print "dev_payload_decoded_lpp: " + str(dev_payload_decoded_lpp)
-		value =  dev_payload_decoded_lpp[0]["value"]
+		value = dev_payload_decoded_lpp[0]["value"]
 		url = "machineq/" + str(deveui)
-		ret= client.publish(url, value)
+		ret = client.publish(url, value)
+
+		#check for temperature reading
+		try:
+			value = dev_payload_decoded_lpp[1]["value"]
+			url += "/temperature"
+			ret = client.publish(url, value)
+		except KeyError:
+			pass
+
 	except Exception as e:
 		print "error: " + str(e)
  
