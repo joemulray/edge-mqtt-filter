@@ -22,18 +22,21 @@ def on_message(client, userdata, message):
 		deveui = message["deveui"]
 		dev_payload_decoded_base64 = base64.b64decode(payload).encode('hex')
 		dev_payload_decoded_lpp = python_cayennelpp.decoder.decode(dev_payload_decoded_base64)
-		print "dev_payload_decoded_lpp: " + str(dev_payload_decoded_lpp)
-		value = dev_payload_decoded_lpp[0]["value"]
-		url = "machineq/" + str(deveui)
-		ret = client.publish(url, value)
+		for index in dev_payload_decoded_lpp:
+			if index["name"] == "Temperature Sensor":
+				url = "machineq/" + str(deveui) + "/temperature"
+				value = index["value"]
+				ret = client.publish(url, value)
+			elif index["name"] == "Humidity Sensor":
+				url = "machineq/" + str(deveui) + "/humidity"
+				value = index["value"]
+				ret = client.publish(url, value)
+			else:
+				#default to Digital touch sensor reading
+				url = "machineq/" + str(deveui)
+				value = index["value"]
+				ret = client.publish(url, value)
 
-		#check for temperature reading
-		try:
-			value = dev_payload_decoded_lpp[1]["value"]
-			url += "/temperature"
-			ret = client.publish(url, value)
-		except KeyError:
-			pass
 
 	except Exception as e:
 		print "error: " + str(e)
