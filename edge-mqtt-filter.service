@@ -1,8 +1,8 @@
 [Unit]
 Description=edge mqtt filter to post to homebridge
-After=homebridge.service
 
 [Service]
+Type=idle
 User=ubuntu
 WorkingDirectory=/home/ubuntu/edge-mqtt-filter
 Environment="PATH=/home/ubuntu/edge-mqtt-filter/bin:/home/ubuntu/bin:/home/ubuntu/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin"
