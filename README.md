@@ -6,3 +6,9 @@
 ### Introduction
 
 The purpose of this script is to read mqtt messages from a single endpoint and then forward those requests to a more precise mqtt endpoint for homebridge. In doing so this eliminates the issue of having to decode the payload (base64, cayenne lpp), and cycle through the mqtt payload for a single deveui (extremely difficult in the current implementation of mqttthing-homebridge)
+
+
+### TODO
+
+* cron job to monitor systemctl status
+* handle connection refused errors
